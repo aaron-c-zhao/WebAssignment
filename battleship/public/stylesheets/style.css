@@ -1,8 +1,46 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+*{
+  margin:0px;
 }
+
+
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url("../../image/background.jpg");
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
+.container{
+  background-image: url("../../image/container_background.jpg");
+  background-size:cover;
+  border: solid 2px white;
+  max-width: 1024px;
+  height: 560px;
+  margin-top: auto;
+  
+}
+
+#gameboard1{
+  position: relative;
+  background-color: rgb(255, 255, 255, 30);
+  width: 50%;
+  
+}
+#gameboard2{
+  position: relative;
+  background-color: rgb(255, 255, 255, 30);
+  width: 50%;
+  
+}
+
+td{
+  border:solid black 2px;
+}
+
 
 a {
   color: #00B7FF;
 }
+
+
