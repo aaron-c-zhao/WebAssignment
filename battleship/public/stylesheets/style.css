@@ -68,10 +68,13 @@ body {
 
 
 table, tr, td{
-  border:solid black 2px;
+  border:solid black 3px;
   border-collapse: collapse;
 }
 
+table{
+  background-image: url("../../image/table_background.jpg")
+}
 
 a {
   color: #00B7FF;
