@@ -22,7 +22,6 @@ body {
   position: relative;
   background-image: url("../../image/container_background.jpg");
   background-size:cover;
-  /* border: solid 2px white; */
   width: 80%;
   height: 80%;
   margin:auto;
@@ -74,6 +73,16 @@ table, tr, td{
 
 table{
   background-image: url("../../image/table_background.jpg")
+}
+
+aside{
+  position: absolute;
+  float: left;
+  margin-left:2%;
+}
+
+button{
+  display:block;
 }
 
 a {
