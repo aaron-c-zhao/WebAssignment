@@ -2,42 +2,88 @@
   margin:0px;
 }
 
-
+html{
+  height:100%;
+  width:100%;
+}
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url("../../image/background.jpg");
   background-repeat: no-repeat;
   background-size:cover;
+  height:100%;
+  align-items: center;
+  display: flex;
+
 }
 
 .container{
+  position: relative;
   background-image: url("../../image/container_background.jpg");
   background-size:cover;
-  border: solid 2px white;
-  max-width: 1024px;
-  height: 560px;
-  margin-top: auto;
-  
+  width: 80%;
+  height: 80%;
+  margin:auto;
+  border-radius: 4%;
 }
 
-#gameboard1{
-  position: relative;
-  background-color: rgb(255, 255, 255, 30);
-  width: 50%;
-  
-}
-#gameboard2{
-  position: relative;
-  background-color: rgb(255, 255, 255, 30);
-  width: 50%;
-  
+#gameboard_1{
+  width:45%;
+  margin:2.5% 2.5% 2.5% 2.5%;
+  height:90%;
+  float: left;
+  background-color:rgb(255, 255, 255, 0.3);
+  border-radius: 3%;
+  align-items: center;
+  display: flex;
+
 }
 
-td{
-  border:solid black 2px;
+#gameboard_2{
+  width:45%;
+  margin:2.5% 2.5% 2.5% 2.5%;
+  height:90%;
+  float:right;
+  background-color:rgb(255, 255, 255, 0.3);
+  border-radius: 3%;
+  align-items: center;
+  display: flex;
+
 }
 
+#gameboard_player1{
+  width:80%;
+  height:80%;
+  margin:auto;
+
+}
+#gameboard_player2{
+  width:80%;
+  height:80%;
+  margin:auto;
+
+}
+
+
+table, tr, td{
+  border:solid black 3px;
+  border-collapse: collapse;
+}
+
+table{
+  background-image: url("../../image/table_background.jpg")
+}
+
+aside{
+  position: absolute;
+  float: left;
+  margin-left:2%;
+}
+
+button{
+  display:block;
+}
 
 a {
   color: #00B7FF;

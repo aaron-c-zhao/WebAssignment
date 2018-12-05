@@ -5,9 +5,9 @@
         <link rel="stylesheet" href="stylesheets/style.css">
     </head>
     <body>
-        <div class="container">
-            <div class="gameboard">
-                <table>
+        <main class="container" id="mainContainer">
+            <div id="gameboard_1">
+                <table id="gameboard_player1">
                     <tr>
                         <td id = "00"></td><td id = "01"></td><td id = "02"></td><td id = "03"></td><td id = "04"></td>
                         <td id = "05"></td><td id = "06"></td><td id = "07"></td><td id = "08"></td><td id = "09"></td>
@@ -50,8 +50,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="gameboard">
-                <table>
+            <div id="gameboard_2">
+                <table id="gameboard_player2">
                     <tr>
                         <td id = "00"></td><td id = "01"></td><td id = "02"></td><td id = "03"></td><td id = "04"></td>
                         <td id = "05"></td><td id = "06"></td><td id = "07"></td><td id = "08"></td><td id = "09"></td>
@@ -94,7 +94,16 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </main>
+        <aside class="dashboard" id="startingboard">
+            <button id="placeShip">Place Ships</button>
+            <button class="shipTypes" value="Carrier">Carrier</button>
+            <button class="shipTypes" value="Battleship">Battleship</button>
+            <button class="shipTypes" value="cruiser">cruiser</button>
+            <button class="shipTypes" value="destroyer1">destroyer1</button>
+            <button class="shipTypes" value="destroyer2">destroyer2</button>
+        </aside>
     </body>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../public/javascript/game.js"></script>
 </html>
