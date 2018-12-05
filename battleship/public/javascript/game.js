@@ -67,22 +67,21 @@ $("#placeShip").click(function(){
                 break;
             }
         } 
-        console.log(type);
     })
 });
 
 var usedCoordinates = [];
+var validCoordinates = [];
 
 
 
 function placeShip(ship){
 
     var length = ship.length;
-
     var grid;
+
     $("td").click(function(){
         grid = this.id;
-
         var numGrid = parseInt(grid,10);
 
         if(usedCoordinates.indexOf(numGrid) >= 0){
@@ -90,34 +89,33 @@ function placeShip(ship){
             placeShip(ship);
         }
 
-        var x_occupied = false;
-        var y_occupied = false;
-        var z_occupied = false;
-        var w_occupied = false;
+        //right,down,left,up
+        //whether the direction it's occupied 
+        var validityOfCoordinates = [false, false, false, false];
 
         var operator = [
             function(){
                 for(var i=1; i<length; i++){
                     if(usedCoordinates.indexOf(numGrid+i)>=0 || ((numGrid+i)%10)<((numGrid+i-1)%10))
-                        x_occupied = true;
+                        validityOfCoordinates[0] = true;
                 }
             },
             function(){
                 for(var i=1; i<length; i++){
                     if(usedCoordinates.indexOf(numGrid+i*10)>=0 || (numGrid+i*10)>100)
-                        y_occupied = true;
+                        validityOfCoordinates[1] = true;
                 }
             },
             function(){
                 for(var i=1; i<length; i++){
                     if(usedCoordinates.indexOf(numGrid-i)>=0 || ((numGrid-i)%10)>((numGrid-i+1)%10) || (numGrid-i)===-1)
-                        z_occupied = true;
+                        validityOfCoordinates[2] = true;
                 }
             },
             function(){
                 for(var i=1; i<length; i++){
                     if(usedCoordinates.indexOf(numGrid-i*10)>=0 || (numGrid-i*10)<0)
-                        w_occupied = true;
+                        validityOfCoordinates[3] = true;
                 }
             }
 
@@ -126,38 +124,50 @@ function placeShip(ship){
         for(var i =0; i<4; i++){
             operator[i]();
         }
-
-        if(!x_occupied || !y_occupied || !z_occupied || !w_occupied){
-            usedCoordinates.push(numGrid);
-            ship.location.push(grid);
-        }
-        highlight(x_occupied, numGrid+1);
-        highlight(y_occupied, numGrid+10);
-        highlight(z_occupied, numGrid-1);
-        highlight(w_occupied, numGrid-10);
         
+        //detetmine whether all directions are full
+        if(validityOfCoordinates[0] && validityOfCoordinates[1] && validityOfCoordinates[2] && validityOfCoordinates[3]){
+            window.alert("You can not put your boat here! There isn't enough space.")
+            placeShip(ship);
+        }
+        
+        // //if 
+        // if(!validityOfCoordinates[0] || !validityOfCoordinates[1] || !validityOfCoordinates[2] || !validityOfCoordinates[3]){
+        //     usedCoordinates.push(numGrid);
+        //     ship.location.push(grid);
+        // }
+
+        //if there are avaliable direction higlight the next grid in that direction
+        highlight(validityOfCoordinates, numGrid);
+        //set the background of the grid that been clicked blue
         document.getElementById(grid).style.backgroundColor = "blue";
-        //while(!ship.isPlaced){}
+
+        $("td").off("click");
 
 });
 }
 
-function highlight(bool, id){
-    console.log(id);
-    if(!bool)
-       document.getElementById(id.toString()).style.backgroundColor = "rgb(255,255,255,0.5)" ;
+function highlight(direction, id){
+    for(var i =0; i < direction.length; i++){
+        if(!direction[i]){
+            validCoordinates.push(id);
+            var nextId;
+            switch(i){
+                case 0: nextId = id + 1;
+                    break;
+                case 1: nextId = id + 10;
+                    break;
+                case 2: nextId = id - 1;
+                    break;
+                case 3: nextId = id -10;
+                    break;
+            }
+
+            document.getElementById(nextId.toString()).style.backgroundColor = "rgb(255,255,255,0.5)" ;
+        }
+    }
+        
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-}
 $(document).ready(main);
