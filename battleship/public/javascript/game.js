@@ -144,6 +144,8 @@ function placeShip(ship){
 
         $("td").off("click");
 
+        changeMind(grid);
+
 });
 }
 
@@ -167,7 +169,19 @@ function highlight(direction, id){
         }
     }
         
-    }
+}
+
+function changeMind(){
+    $("td").click(function(){
+        if(validCoordinates.indexOf(this.id)<0 || this.id === grid){
+            for(var i =0; i < validCoordinates.length;i++)
+            document.getElementById(validCoordinates[i]).setAttribute("class", "chingeMind")
+        }
+    })
+}
+
+
+
 }
 
 $(document).ready(main);
