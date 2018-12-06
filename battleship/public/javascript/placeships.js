@@ -130,7 +130,10 @@ function placeShip(ship){
             placeShip(ship);
         }
         if(!firstClick && validCoordinates.indexOf(numGrid)<0){
-            document.getElementById(usedCoordinates.pop()).style.background="none";
+            var usedNumber = usedCoordinates.length;
+            for(var i = 0; i<usedNumber; i++){
+                document.getElementById(usedCoordinates.pop()).style.background="none";
+            }
             deHightLight();
             firstClick = true;
             allUsedCoordinates.pop();
