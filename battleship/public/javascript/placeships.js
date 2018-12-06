@@ -86,7 +86,7 @@ function placeShip(ship){
     var firstClick = true;
     var length = ship.length;
 
-    $("td").click(function(){
+    $("#gameboard_player1 > td").click(function(){
         grid = this.id;
         var numGrid = parseInt(grid,10);
 
