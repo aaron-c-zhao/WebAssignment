@@ -132,7 +132,11 @@ function placeShip(ship){
         if(!firstClick && validCoordinates.indexOf(numGrid)<0){
             var usedNumber = usedCoordinates.length;
             for(var i = 0; i<usedNumber; i++){
-                document.getElementById(usedCoordinates.pop()).style.background="none";
+                var n = usedCoordinates.pop();
+                if(n<10)
+                    n = "0" + n;
+                document.getElementById(n).style.background="none";
+                allUsedCoordinates.pop();
             }
             deHightLight();
             firstClick = true;
@@ -212,7 +216,6 @@ function directionCalculate(num, id){
         case 3: nextId = id -10;
             break;
     }
-    console.log("ca" + nextId);
     return nextId;
 }
 
