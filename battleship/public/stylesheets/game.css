@@ -83,6 +83,17 @@ aside{
 
 button{
   display:block;
+  /* background-image: url("../../image/button_background.png");
+  background-size:100px 50px;
+  background-repeat: no-repeat; */
+  background-color:"#003366";
+  width: 100px;
+  height: 30px;
+  cursor:pointer;
+  text-align:center;
+  /* border:none; */
+  margin-top:10%;
+  margin-left:5%;
 }
 
 a {
