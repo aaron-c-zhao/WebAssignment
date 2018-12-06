@@ -1,14 +1,6 @@
 //entry of the program
 var main = function(){
 
-    //user prompt for player name with default name plarer 1
-
-    // var name = function (){
-    //     var name = prompt("Captin, what's your name?");
-    //     name = name || "Player 1";
-    //     return name;
-    //     }();
-
     //datastructures 
 
     function Ship(length, location, color){
