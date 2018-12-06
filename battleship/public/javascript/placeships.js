@@ -84,6 +84,7 @@ var main = function(){
 
             //sequence:right,down,left,up
             //tracking whether the direction it's occupied 
+            //known bug:if user change mind and place the new ship beside the old place, it won't be hightlighted
             var validityOfCoordinates = [false, false, false, false];
             var operator = [
                 function(){
@@ -116,11 +117,13 @@ var main = function(){
                 operator[i]();
             }
             
-            //detetmine whether all directions are full
+            //detetmine whether all directions are full, if so alert pump out 
             if(validityOfCoordinates[0] && validityOfCoordinates[1] && validityOfCoordinates[2] && validityOfCoordinates[3]){
                 window.alert("You can not put your boat here! There isn't enough space.")
                 placeShip(ship);
             }
+
+            //check if user changed his mind, and click outside the valid zone
             if(!firstClick && validCoordinates.indexOf(numGrid)<0){
                 var usedNumber = usedCoordinates.length;
                 for(var i = 0; i<usedNumber; i++){
@@ -135,9 +138,12 @@ var main = function(){
                 allUsedCoordinates.pop();
             }
             
-        if(!firstClick){
+            //situations after user clicked in the valid zone
+            if(!firstClick){
+                //click on an grid that has already been selected
                 if(usedCoordinates.indexOf(numGrid)>=0)
                     window.alert("This grid has already been seleceted!");
+                //good choice
                 else if(usedCoordinates.indexOf(numGrid)<0 && validCoordinates.indexOf(numGrid)>=0){
                     var direction = function(){
                         switch(numGrid-usedCoordinates[usedCoordinates.length-1]){
@@ -149,10 +155,14 @@ var main = function(){
                     }();
                     deHightLight();
                     document.getElementById(numGrid).style.backgroundColor = ship.color;
+
+                    //check whether the ship has been completely placed
                     if(usedCoordinates.length < length-1){
                         var nextId = directionCalculate(direction, numGrid);
                         document.getElementById(nextId.toString()).style.backgroundColor = "rgb(255,255,255,0.5)" ;
                         validCoordinates.push(nextId);
+                    
+                    //if a ship is finished placing then change the status of it and turn off the listener
                     }else if(usedCoordinates.length = length-1){
                         ship.isPlaced = true;
                         validCoordinates = [];
@@ -161,13 +171,19 @@ var main = function(){
                         
                 }
             }
-            //if there are avaliable direction higlight the next grid in that direction
+
+            //check if it's the first click of a ship
             if(firstClick)
                 highlight(validityOfCoordinates, numGrid, ship);
+
+            //update the tracking arraies
             usedCoordinates.push(numGrid);
             allUsedCoordinates.push(numGrid);
+
+            //no more first click
             firstClick = false;
 
+            //if a ship is placed then clear out the arry and set the location
             if(ship.isPlaced){
                 var arrayLength = usedCoordinates.length;
                 for(var i = 0; i < arrayLength; i++)
@@ -177,6 +193,7 @@ var main = function(){
     });
     }
 
+    //highlight the valid zone
     function highlight(direction, id, ship){
         for(var i =0; i < direction.length; i++){
             if(!direction[i]){
@@ -193,6 +210,7 @@ var main = function(){
 
     }
 
+    //check which direction is valid 
     function directionCalculate(num, id){
         var nextId;
         switch(num){
@@ -208,7 +226,7 @@ var main = function(){
         return nextId;
     }
 
-
+    //cancle the highlight for valid zone
     function deHightLight(){
         var length = validCoordinates.length;
         for(var i =0; i < length;i++){
