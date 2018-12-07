@@ -22,14 +22,14 @@ body {
   position: relative;
   background-image: url("../../image/container_background.jpg");
   background-size:cover;
-  width: 80%;
-  height: 80%;
+  width:75%;
+  height: 75%;
   margin:auto;
   border-radius: 4%;
 }
 
 #gameboard_1{
-  width:45%;
+  width:42%;
   margin:2.5% 2.5% 2.5% 2.5%;
   height:90%;
   float: left;
@@ -41,7 +41,7 @@ body {
 }
 
 #gameboard_2{
-  width:45%;
+  width:42%;
   margin:2.5% 2.5% 2.5% 2.5%;
   height:90%;
   float:right;
@@ -83,17 +83,15 @@ aside{
 
 button{
   display:block;
-  /* background-image: url("../../image/button_background.png");
-  background-size:100px 50px;
-  background-repeat: no-repeat; */
-  background-color:"#003366";
+  background-color:black;
+  color:green;
   width: 100px;
   height: 30px;
   cursor:pointer;
   text-align:center;
-  /* border:none; */
   margin-top:10%;
   margin-left:5%;
+
 }
 
 a {

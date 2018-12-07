@@ -1,5 +1,5 @@
 //entry of the program
-var main = function(){
+var placeShip = function(){
 
     //datastructures 
 
@@ -236,6 +236,8 @@ var main = function(){
             document.getElementById(coordinate).style.background="none"; 
         }
     }
+
+    
 }
 
-$(document).ready(main);
+$(document).ready(placeShip);
