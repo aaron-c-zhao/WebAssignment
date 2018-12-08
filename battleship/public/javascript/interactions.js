@@ -1,45 +1,3 @@
-var GameState = function(){
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    return{
-
-    }
-}();
-
-var Ships = function(){
-    var amount = 5;
-
-    function Ship(id,length, color, location){
-        this.id = id;
-        this.length = length;
-        this.location = location;
-        this.color = color;
-    }
-    
-
-    function placeShips(){
-
-    }
-
-
-
-    var ships =[
-        {carrier: new Ship("carrier", 5, "#cc3300", )}
-    ] 
-
-
-
-
-}
 
 function Board(boardId){
     
@@ -63,10 +21,10 @@ function Board(boardId){
 
     // }
 
-    this.idParserInWard = function(gridId){
+    this.idParserInWard = function(id){
         var x = id.substr(0,1);
         var y = id.substr(1,1);
-        return id[x,y];
+        return [x,y];
     }
 
     this.idParserOutWard = function(id){
@@ -74,9 +32,13 @@ function Board(boardId){
         return gridId;
     }
 
-    //TODO:enable click on board
-    this.enableBoard = function(){
-        
+    //board = "gamebpard_player1 td"or player2
+    this.enableBoard = function(boardId){
+       var id;
+       $(boardId).click(function(){
+           id = this.id;
+       });
+       return idParserInWard(id);
     }
 
     //TODO:disable click on board
@@ -84,16 +46,38 @@ function Board(boardId){
 
     }
 
+    this.setElement = function(matrixId, value){
+        this.coordinatsMatrix[matrix[0]][matrixId[1]] = value;
+    }
+
     //has this grid been occupied
     this.isValidClick = function(id){
-        return this.coordinatsMatrix[id[0]][id[1]] === 0;
+        return this.coordinatsMatrix[id[0]][id[1]] === 0 || this.coordinatsMatrix[id[0]][id[1]] === 42;
     }
 
-    this.highlight = function(id, color){
-        document.getElementById(idParserOutWard(id)).style.backgroundColor = color;
+    this.highlight = function(gridId, color){
+        document.getElementById(gridId).style.backgroundColor = color;
     }
 
-    this.deHighLight = function(id){
-        document.getElementById(idParserOutWard(id)).style.backgroundColor = "none";
+    this.deHighLight = function(matrixId){
+        document.getElementById(this.idParserOutWard(matrixId)).style.backgroundColor = "none";
     }
 }
+
+
+var GameState = function(){
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return{
+
+    }
+}();
