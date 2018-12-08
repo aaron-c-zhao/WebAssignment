@@ -3,8 +3,7 @@ var express = require('express');
 var websocket = require("ws");
 var http = require('http');
 
-const filename = process.argv[2];
-var port = process.argv[3];
+var port = process.argv[2];
 
 var app = express();
 
