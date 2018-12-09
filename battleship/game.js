@@ -61,12 +61,18 @@ game.prototype.addPlayer = function(p){
     
     if(this.playerA == null){
         this.playerA = p
+        this.setStatus("1 JOINT");
         return "A"
     }
     else{
         this.playerB = p;
+        this.setStatus("2 JOINT");
         return "B";
     }
 };
+
+game.prototype.currentStatus = function(){
+    return this.gameState;
+}
 
 module.exports = game;

@@ -3,35 +3,42 @@ function Ship(){
    this.Carrier = {
         id: 1,
         length: 5,
+        HP:5,
         color:"#cc3300"
     };
 
     this.Battleship = {
         id:2,
         length:4,
+        HP:4,
         color:"#99003d"
     };
 
     this.Cruiser = {
         id:3,
         length:3,
+        HP:3,
         color:"#000099"
     };
 
     this.Destroyer1 = {
         id:4,
         length:2,
+        HP:2,
         color:"#6600cc"
     };
 
     this.Destroyer2 = {
         id:5,
         length:2,
+        HP:2,
         color:"#6600cc"
     };
+
+    this.shipArray = ["Carrier", "Battleship", "Cruiser", "Destroyer1", "Destroyer2"];
       
     //TODO:temp the id of player's websocket id
-    var board = new Board("temp");
+    var board = new Board("yourboard");
 
     //get shipId through clicking on the button
     this.placeship= function(shipId){
@@ -114,7 +121,6 @@ function Ship(){
                         
                         var validDirection = validDirectionCalculator(matrixId);
 
-                        console.log(validDirection);
                         if(!board.isValidClick(matrixId))
                             alert("This grid has been selected!")
                         
@@ -147,7 +153,6 @@ function Ship(){
                             //if everything going well
                             if(firstClick){
                                 var validDirectionForFirstClick = validDirectionCalculator(matrixId);
-                                console.log(validDirectionForFirstClick);
                                 board.setElement(matrixId, shipid);
                                 board.highlight(gridId, color);
                                 isPlaced--;
@@ -236,6 +241,32 @@ function Ship(){
     this.getBoard= function(){
         return board;
     }
+
+    // this.isHit = function(id){
+    //     let matrixId = board.idParserInWard(id);
+    //     let idHit = board.coordinatsMatrix[matrixId[0]][matrixId[1]];
+    //     if(idHit !== 0) {
+    //         this[shipArray[idHit]].HP--;
+    //         if(this[shipArray[idHit]].HP !== 0)
+    //             return{
+    //                 type:"HIT",
+    //                 sunk:"FALSE",
+    //                 won: "FALSE"
+    //             }
+    //         else if(){
+    //             shipArray[is]
+    //             return{
+    //                 type:"HIT",
+    //                 sunk:shipArray
+    //             }
+    //         } 
+
+    //         return true
+    //     }else{
+    //         return false;
+    //     }
+    // }
+
 
     }
 

@@ -9,7 +9,7 @@ html{
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-image: url("../../image/background.jpg");
+  background-image: url("../image/background.jpg");
   background-repeat: no-repeat;
   background-size:cover;
   height:100%;
@@ -20,11 +20,12 @@ body {
 
 .container{
   position: relative;
-  background-image: url("../../image/container_background.jpg");
+  background-image: url("../image/container_background.jpg");
   background-size:cover;
   width:75%;
   height: 75%;
   margin:auto;
+  bottom: 5%;
   border-radius: 4%;
 }
 
@@ -72,7 +73,7 @@ table, tr, td{
 }
 
 table{
-  background-image: url("../../image/table_background.jpg")
+  background-image: url("../image/table_background.jpg")
 }
 
 aside{
@@ -94,8 +95,35 @@ button{
 
 }
 
+#status{
+  background-color: rgb(0,0,0, 0.5);
+  width: 50%;
+  height:10%;
+  border: sollid black 2px;
+  position: absolute;
+  top:85%;
+  left:25%;
+}
+
+#statusbar{
+    display:inline-block; 
+    vertical-align: middle; 
+    padding: 15px;
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 5s steps(40, end);
+    letter-spacing: .1em;
+    color:greenyellow;
+}
+
+
+
+
 a {
   color: #00B7FF;
 }
+
+
 
 
