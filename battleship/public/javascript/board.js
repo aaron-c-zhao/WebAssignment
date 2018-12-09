@@ -24,6 +24,7 @@ function Board(boardId){
     }
 
     this.idParserOutWard = function(id){
+        console.log(id);
         var gridId = id[0].toString() + id[1].toString();
         return gridId;
     }
@@ -37,9 +38,8 @@ function Board(boardId){
        return idParserInWard(id);
     }
 
-    //TODO:disable click on board
-    this.disableBoard = function(){
-
+    this.getElement= function(array){
+        return this.coordinatsMatrix[array[0]][array[1]];
     }
 
     this.setElement = function(matrixId, value){

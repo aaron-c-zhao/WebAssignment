@@ -215,7 +215,8 @@ function Ship(){
                         
                     })
     }
-        
+    
+
     this.resetAllShips= function(){
         for(var i = 0; i < 10; i++){
             for(var n = 0; n < 10; n ++){
@@ -226,14 +227,59 @@ function Ship(){
         }
     }
         
-    //TODO:random ships
+    //random ships
     this.randomShips=function(){
-                    function randomNum(){
-                       return Math.floor(Math.random()*10);
+        function outter(){
+            return Math.floor(Math.random()*10);
+        };
+        function inner(){
+            return Math.floor(Math.random()*10);
+        };
+
+        let dir = function(){
+            return (Math.random() > 0.5);
+        }
+
+        let haveATry = function(id, length, color){
+            let tryArray;
+            do{
+                tryArray = {};
+                let origin = [outter(), inner()]
+                var loopTerminator = true;
+                if(dir()){
+                    for(var i = 0; i<length; i++){
+                        tryArray[i.toString()]= [origin[0], (origin[1]+i)];
                     }
+                }
+                else{
+                    for(var i = 0; i<length; i++){
+                        tryArray[i.toString()] = [(origin[0]+i), origin[1]];
+                    }
+                }
+                //check if the random ship satisfy the rules
                     
+                for(var i = 0; i<length; i++){
+                    if(tryArray[i.toString()][0]>=10 || tryArray[i.toString()][1]>=10 
+                        || board.getElement(tryArray[i.toString()]) !== 0){
+                            loopTerminator = false;
+                        }
+                }
+                
+            }while(loopTerminator === false);       
+
+            for(var i = 0; i<length; i++){
+                board.setElement(tryArray[i.toString()], id);
+                board.highlight(board.idParserOutWard(tryArray[i.toString()]), color);
+            }
+        }
         
-        
+        haveATry(1, 5, "#cc3300");
+        haveATry(2, 4, "#99003d");
+        haveATry(3, 3, "#000099");
+        haveATry(4, 2, "#6600cc");
+        haveATry(5, 2, "#6600cc");
+
+
     }
         
     this.getBoard= function(){

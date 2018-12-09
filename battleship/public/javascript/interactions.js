@@ -19,6 +19,7 @@ function GameState(sb, socket){
                 
             document.getElementById("gameboard_1").style.backgroundColor = "rgb(255,255,255,0.8)";
              //$(".shipTypes").show();
+
             $(".shipTypes").click(function(){
                 var thisShip = this.value;
                 //TODO:use disable to disable buttons
@@ -27,6 +28,12 @@ function GameState(sb, socket){
                         ship.placeship(thisShip);
                 }
             })
+        });
+
+        $("#random").click(function(){
+            $(".shipTypes").off("click");
+            remainShips=["Carrier", "Battleship", "Cruiser", "Destroyer1", "Destroyer2"]
+            ship.randomShips(); 
         });
 
         $("#ready").click(function(){
@@ -68,18 +75,18 @@ function GameState(sb, socket){
 
         if(result){
             playerBoard.highlight(id, "red");
-            if(result){
-                socket.send(JSON.stringify({type:"HIT", data:result.name, grid:id}));
                 if(result.isSunk){
-                    socket.send(JSON.stringify({type:"SUNK", data:result.name})); 
                     sunkedShip.push(result.name);
+                    if(this.iswon){
+                        socket.send(JSON.stringify({type:"WON", data:null})); 
+                    }else socket.send(JSON.stringify({type:"SUNK", data:result.name, grid:id}));     
                 }
-            }
+                else  socket.send(JSON.stringify({type:"HIT", grid:id}));
         }
         else{
             playerBoard.highlight(id, "green");
             socket.send(JSON.stringify({type:"MISS", data:null, grid:id}));
-            sb.setStatus["yourturn"];
+            sb.setStatus(Status["yourturn"]);
             this.fire();
         }
             
@@ -142,20 +149,14 @@ function setUp(){
         //need to determine whether hit or miss, and send it back to server
         else if(inComMes.type == "FIRE"){
             gs.isHit(inComMes.data);
-            if(gs.isWon())
-                socket.send(JSON.stringify({type:"WON", data:null}));
-            // else {
-            //     sb.setStatus(Status["yourturn"]);
-            //     //gs.fire();
-            // }
         }
 
         else if(inComMes.type == "HIT"){
             $("[id="+inComMes.grid+"]:eq(1)").css("background-color","red");
-            sb.setStatus(Status["hit"] + inComMes.data + " !" );
+            sb.setStatus(Status["hit"]);
             setTimeout(function(){
                 sb.setStatus(Status["shotagain"]);
-            }, 500); 
+            }, 800); 
             gs.fire();  
         }
 
@@ -164,16 +165,23 @@ function setUp(){
             sb.setStatus(Status["miss"]);
             setTimeout(function(){
                 sb.setStatus(Status["waitting"]);
-            }, 500);   
+            }, 800);   
         }
         
         else if(inComMes.type == "SUNK"){
-            sb.setStatus(Status["sunk"] + inComMes.data);    
+            $("[id="+inComMes.grid+"]:eq(1)").css("background-color","red");
+            sb.setStatus(Status["sunk"] + inComMes.data);
+            setTimeout(function(){
+                sb.setStatus(Status["shotagain"]);   
+            }, 800);
+            gs.fire();       
         }
         
         else if(inComMes.tyep == "WON"){
+            sb.setStatus(Status["gameWon"]);
+        }
+        else if (inComMes.type == "LOSE"){
             sb.setStatus(Status["gameLost"]);
-
         }
         
         else if(inComMes.type == "PLAYER TYPE"){
@@ -188,6 +196,7 @@ function setUp(){
         socket.send("{}");
     }
 
+    //TODO: socket.onclose
 
 };
 $(document).ready(setUp);

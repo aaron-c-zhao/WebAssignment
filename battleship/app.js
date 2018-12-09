@@ -115,10 +115,9 @@ wss.on("connection", function connection(ws){
       }
       gameObj.setStatus(whoWon);
     }
-
-
   })
 
+  //TODO: player.on(close, function(){})
 
 
 
