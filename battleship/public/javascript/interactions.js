@@ -1,8 +1,12 @@
 function GameState(sb, socket){
     this.playerType = null;
     this.statusBar = sb;
-    var ship = new Ship();
+    let ship = new Ship();
     let remainShips = []; // the array contains ships
+    let firedAt = [];
+    let sunkedShip = [];
+
+
 
     this.setPlayerType = function(p){
         this.playerType = p;
@@ -43,30 +47,49 @@ function GameState(sb, socket){
     this.fire= function(){
         var gridId;
         $("#gameboard_player2 td").click(function(){
-            gridId = this.id;        
+            gridId = this.id; 
+            if(firedAt.indexOf(gridId)<0){
+                $("#gameboard_player2 td").off("click");
+                firedAt.push(gridId); 
+                socket.send(JSON.stringify({type:"FIRE", data:gridId}));
+            }
+            else{
+                sb.setStatus(Status["cantFireTwice"]);
+            }
+
         })
-        $("#gameboard_player2 td").off("click");
-        return gridId;
     }
 
-    this.hit = function(id){
-        var playerBoard = this.ship.getBoard();
-        var matrixId = playerBoard.idParserInWard(id);
-        if(playerBoard.coordinatsMatrix[matrixId[0]][matrixId[1]] !== 0){
+    this.isHit = function(id){
+        let playerBoard = ship.getBoard();
+        let matrixId = playerBoard.idParserInWard(id);
+        let shipid = playerBoard.coordinatsMatrix[matrixId[0]][matrixId[1]];
+        let result = ship.isHit(shipid);
+
+        if(result){
             playerBoard.highlight(id, "red");
-            return true;
+            if(result){
+                socket.send(JSON.stringify({type:"HIT", data:result.name, grid:id}));
+                if(result.isSunk){
+                    socket.send(JSON.stringify({type:"SUNK", data:result.name})); 
+                    sunkedShip.push(result.name);
+                }
+            }
         }
         else{
             playerBoard.highlight(id, "green");
-            return false;
+            socket.send(JSON.stringify({type:"MISS", data:null, grid:id}));
+            sb.setStatus["yourturn"];
+            this.fire();
         }
             
     }
 
-    this.getRemainShips = function(){
-        return remainShips;
+    this.isWon = function(){
+        return (sunkedShip.length === 5);
     }
 
+    this.hightlight
     
 }
 
@@ -104,30 +127,53 @@ function setUp(){
         }
         //start the game
         else if(inComMes.type == "2 READY"){
-            sb.setStatus(Status["bothReady"])
-            if(gs.playerType == "A"){
-                let gridId = gs.fire();
-                socket.send(JSON.stringify({type:"FIRE", data:gridId}));
+            sb.setStatus(Status["bothReady"]);
+            let playerType = gs.playerType;
+            if(playerType == "A"){
+                console.log("A run");
+                sb.setStatus(Status["yourturn"]);
+                gs.fire();
+            }else if(playerType == "B"){
+                console.log("B run");
+                sb.setStatus(Status["waitting"]);
             }
         }
 
         //need to determine whether hit or miss, and send it back to server
         else if(inComMes.type == "FIRE"){
-            let ifHit = gs.hit(inComMes.data);
-            if(ifHit)
-                socket.send(JSON.stringify({type:"HIT", data:inComMes.data}));
-            else socket.send(JSON.stringify({type:"MISS", data:inComMes.data}));
+            gs.isHit(inComMes.data);
+            if(gs.isWon())
+                socket.send(JSON.stringify({type:"WON", data:null}));
+            // else {
+            //     sb.setStatus(Status["yourturn"]);
+            //     //gs.fire();
+            // }
+        }
+
+        else if(inComMes.type == "HIT"){
+            $("[id="+inComMes.grid+"]:eq(1)").css("background-color","red");
+            sb.setStatus(Status["hit"] + inComMes.data + " !" );
+            setTimeout(function(){
+                sb.setStatus(Status["shotagain"]);
+            }, 500); 
+            gs.fire();  
+        }
+
+        else if(inComMes.type == "MISS"){
+            $("[id="+inComMes.grid+"]:eq(1)").css("background-color","green");
+            sb.setStatus(Status["miss"]);
+            setTimeout(function(){
+                sb.setStatus(Status["waitting"]);
+            }, 500);   
         }
         
-
-
-
         else if(inComMes.type == "SUNK"){
             sb.setStatus(Status["sunk"] + inComMes.data);    
         }
         
         else if(inComMes.tyep == "WON"){
             sb.setStatus(Status["gameLost"]);
+
         }
         
         else if(inComMes.type == "PLAYER TYPE"){
@@ -142,11 +188,6 @@ function setUp(){
         socket.send("{}");
     }
 
-
-
-
-    
-  
 
 };
 $(document).ready(setUp);

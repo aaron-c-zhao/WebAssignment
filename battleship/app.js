@@ -46,8 +46,8 @@ wss.on("connection", function connection(ws){
   
   //once player enter the game determine whether it's playerA or B, playerA will fire first
   if(playerType == "A")
-    player.send(JSON.stringify({type:"PLAYER TYPE", data:"A "}));
-  else player.send(JSON.stringify({type:"PLAYER TYPE", data:"B "}));
+    player.send(JSON.stringify({type:"PLAYER TYPE", data:"A"}));
+  else player.send(JSON.stringify({type:"PLAYER TYPE", data:"B"}));
 
   if(currentGame.currentStatus() == "1 JOINT")
     player.send(JSON.stringify({type:"1 JOINT", data:null}));
@@ -68,6 +68,8 @@ wss.on("connection", function connection(ws){
   player.on("message", function incoming(message){
     let inComingMeg = JSON.parse(message);
     let gameObj = gameStarted[player.id];
+    let isPlayerA = (gameObj.playerA == player) ? true : false;
+
     if(inComingMeg.type == "READY"){
       player.send(JSON.stringify({type:"READY CONFIRM",data:null}));
       if(gameObj.currentStatus() == "2 JOINT")   
@@ -78,6 +80,40 @@ wss.on("connection", function connection(ws){
         gameObj.playerB.send(JSON.stringify({type:"2 READY", data:null}));
       }
           
+    }
+    else if(inComingMeg.type == "FIRE"){
+      if(isPlayerA)
+        gameObj.playerB.send(message);
+      else gameObj.playerA.send(message);
+    }
+
+    else if(inComingMeg.type == "MISS" || inComingMeg.type == "HIT"){
+      console.log("miss or hit run");
+      if(isPlayerA)
+        gameObj.playerB.send(message);
+      else gameObj.playerA.send(message);
+    }
+
+
+    else if(inComingMeg.type == "SUNK"){
+      if(isPlayerA)
+        gameObj.playerB.send(message);
+      else gameObj.playerA.send(message);
+    }
+
+    else if(inComingMeg.type == "WON"){
+      let whoWon = "";
+      if(isPlayerA){
+        whoWon = "B WON";
+        gameObj.playerB.send(JSON.stringify({type:"WON", data:null}));
+        gameObj.playerA.send(JSON.stringify({type:"LOSE", data:null}));
+      }
+      else{
+        whoWon = "A WON";
+        gameObj.playerA.send(JSON.stringify({type:"WON", data:null}));
+        gameObj.playerB.send(JSON.stringify({type:"LOSE", data:null}));
+      }
+      gameObj.setStatus(whoWon);
     }
 
 

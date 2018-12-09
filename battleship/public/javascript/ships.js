@@ -34,8 +34,6 @@ function Ship(){
         HP:2,
         color:"#6600cc"
     };
-
-    this.shipArray = ["Carrier", "Battleship", "Cruiser", "Destroyer1", "Destroyer2"];
       
     //TODO:temp the id of player's websocket id
     var board = new Board("yourboard");
@@ -242,32 +240,42 @@ function Ship(){
         return board;
     }
 
-    // this.isHit = function(id){
-    //     let matrixId = board.idParserInWard(id);
-    //     let idHit = board.coordinatsMatrix[matrixId[0]][matrixId[1]];
-    //     if(idHit !== 0) {
-    //         this[shipArray[idHit]].HP--;
-    //         if(this[shipArray[idHit]].HP !== 0)
-    //             return{
-    //                 type:"HIT",
-    //                 sunk:"FALSE",
-    //                 won: "FALSE"
-    //             }
-    //         else if(){
-    //             shipArray[is]
-    //             return{
-    //                 type:"HIT",
-    //                 sunk:shipArray
-    //             }
-    //         } 
-
-    //         return true
-    //     }else{
-    //         return false;
-    //     }
-    // }
-
-
+    this.isHit = function(shipID){
+        switch(shipID){
+            case 1: {
+                this.Carrier.HP--;
+                if(this.Carrier.HP === 0)
+                    return {isSunk: true, name:"Carrier"};
+                else return {isSunk:false,name:"Carrier"};
+            }
+            case 2:{
+                this.Battleship.HP--;
+                if(this.Battleship.HP === 0)
+                    return {isSunk: true, name:"Battleship"};
+                else return {isSunk:false,name:"Battleship"};
+            }    
+            case 3:{
+                this.Cruiser.HP--;
+                if(this.Cruiser.HP === 0)
+                    return {isSunk: true, name:"Cruiser"};
+                else return {isSunk:false,name:"Cruiser"};
+            }
+            case 4:{
+                this.Destroyer1.HP--;
+                if(this.Destroyer1.HP === 0)
+                    return {isSunk: true, name:"Destroyer"};
+                else return {isSunk:false,name:"Destroyer"};
+            }
+            case 5:{
+                this.Destroyer2.HP--;
+                if(this.Destroyer2.HP === 0)
+                    return {isSunk: true, name:"Destroyer"};
+                else return {isSunk:false,name:"Destroyer"};
+            }
+            default: return false;
+        }
     }
+
+}
 
 
