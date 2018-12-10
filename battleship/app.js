@@ -59,6 +59,7 @@ wss.on("connection", function connection(ws){
     gameObj = gameStarted[player.id];
     console.log(gameObj.playerA);
     console.log(gameObj.playerB);
+
     //2 JOINT players can begin to place there ship
     gameObj.playerA.send(JSON.stringify({type:"2 JOINT", data:null}));
     gameObj.playerB.send(JSON.stringify({type:"2 JOINT", data:null}));
@@ -88,7 +89,6 @@ wss.on("connection", function connection(ws){
     }
 
     else if(inComingMeg.type == "MISS" || inComingMeg.type == "HIT"){
-      console.log("miss or hit run");
       if(isPlayerA)
         gameObj.playerB.send(message);
       else gameObj.playerA.send(message);
@@ -102,6 +102,7 @@ wss.on("connection", function connection(ws){
     }
 
     else if(inComingMeg.type == "WON"){
+      gameStatus.gamesCompleted++;
       let whoWon = "";
       if(isPlayerA){
         whoWon = "B WON";

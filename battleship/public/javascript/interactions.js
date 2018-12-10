@@ -45,6 +45,8 @@ function GameState(sb, socket){
 
 
         $("#ready").click(function(){
+            $("#random").off("click");
+            $("#placeShip").off("click");
             if(remainShips.length < 5){
                 var numNotPlaced = 5 - remainShips.length;
                 alert("%d more ships need to be placed.", numNotPlaced);
@@ -85,11 +87,10 @@ function GameState(sb, socket){
             playerBoard.highlight(id, "red");
                 if(result.isSunk){
                     sunkedShip.push(result.name);
-                    if(this.iswon()){
-                        socket.send(JSON.stringify({type:"WON", data:null})); 
+                    if(this.isWon()){
+                        socket.send(JSON.stringify({type:"WON", grid:id})); 
                     }else socket.send(JSON.stringify({type:"SUNK", data:result.name, grid:id}));     
-                }
-                else  socket.send(JSON.stringify({type:"HIT", grid:id}));
+                }else  socket.send(JSON.stringify({type:"HIT", grid:id}));
         }
         else{
             playerBoard.highlight(id, "green");
@@ -205,6 +206,7 @@ function setUp(){
     }
 
     //TODO: socket.onclose
+    
 
 };
 $(document).ready(setUp);
