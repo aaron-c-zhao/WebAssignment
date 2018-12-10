@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BATTLESHIP:Let's fight!</title>
+        <link rel="stylesheet" href="stylesheets/splash.css">
+    </head>
+    <body>
+        <section id="maincontainer">
+                <header id="imgcontainer">
+                    <img src="image/title.png">
+                </header>
+                <h2>By CSE1-99    
+                    <span style="color:blueviolet" id="author">
+                        ZHAO & JIANG
+                    </span>
+
+                </h2>
+        
+                <h3><%= gamesInitialized %> 
+                    <%if (gamesInitialized != 1) { %>
+                        games
+                    <% } else { %>
+                        game
+                    <% } %>
+                    initialized
+                    <br> 
+                    <%= gamesCompleted %> 
+                    game completed
+                </h3>
+        
+                <form action="/play" method="get">
+                    <button type="submit">PLAY</button>
+                </form>
+
+        </section>
+
+    </body>
+
+</html>

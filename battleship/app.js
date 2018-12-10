@@ -11,9 +11,10 @@ var port = process.argv[2];
 
 var app = express();
 
-app.use('/',indexRouter);
-
 app.set("view engine", "ejs");
+// app.set('views', __dirname + '/views');
+
+app.use('/',indexRouter);
 app.use(express.static(__dirname + "/public"));
 
 var server = http.createServer(app);

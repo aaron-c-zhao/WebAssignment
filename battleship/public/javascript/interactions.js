@@ -186,7 +186,8 @@ function setUp(){
             gs.fire();       
         }
         
-        else if(inComMes.tyep == "WON"){
+        else if(inComMes.type == "WON"){
+            $("[id="+inComMes.grid+"]:eq(1)").css("background-color","red");
             sb.setStatus(Status["gameWon"]);
         }
         else if (inComMes.type == "LOSE"){
