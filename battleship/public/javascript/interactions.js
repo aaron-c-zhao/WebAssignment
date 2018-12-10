@@ -27,14 +27,22 @@ function GameState(sb, socket){
                     remainShips.push(thisShip);
                         ship.placeship(thisShip);
                 }
-            })
+            });
+
+            $("#resetShips").click(function(){
+               remainShips = [];
+               ship.resetAllShips(); 
+            });
+
+            $("#random").click(function(){
+                $(".shipTypes").off("click");
+                remainShips=["Carrier", "Battleship", "Cruiser", "Destroyer1", "Destroyer2"]
+                ship.randomShips(); 
+            });
+
         });
 
-        $("#random").click(function(){
-            $(".shipTypes").off("click");
-            remainShips=["Carrier", "Battleship", "Cruiser", "Destroyer1", "Destroyer2"]
-            ship.randomShips(); 
-        });
+
 
         $("#ready").click(function(){
             if(remainShips.length < 5){
