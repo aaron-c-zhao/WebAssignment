@@ -85,7 +85,7 @@ function GameState(sb, socket){
             playerBoard.highlight(id, "red");
                 if(result.isSunk){
                     sunkedShip.push(result.name);
-                    if(this.iswon){
+                    if(this.iswon()){
                         socket.send(JSON.stringify({type:"WON", data:null})); 
                     }else socket.send(JSON.stringify({type:"SUNK", data:result.name, grid:id}));     
                 }
