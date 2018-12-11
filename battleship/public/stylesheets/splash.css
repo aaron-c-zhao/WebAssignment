@@ -10,6 +10,11 @@
   100% {color: blueviolet;}
 }  
 
+#text{
+    visibility: hidden;
+    text-align: center;
+    color: antiquewhite;
+}
 
 html{
     height:100%;
@@ -118,3 +123,10 @@ button:focus {
 button:active {
     transform: scale(0.95);
 }
+
+@media screen and (max-height:500px),
+    screen and (max-width:700px){
+        #text{
+            visibility: visible;
+        }
+    }
