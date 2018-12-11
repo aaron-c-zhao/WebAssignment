@@ -2,6 +2,11 @@
   margin:0px;
 }
 
+@keyframes flash{
+  0%   {color:greenyellow};
+  100% {color:none;}
+}
+
 html{
   height:100%;
   width:100%;
@@ -105,6 +110,7 @@ button{
   left:25%;
 }
 
+
 #statusbar{
     display:inline-block; 
     vertical-align: middle; 
@@ -120,9 +126,14 @@ button{
 
 
 
-a {
-  color: #00B7FF;
-}
+ span ::after{
+  content: "_";
+  display:inline-block;
+  animation-name: flash;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+} 
 
 
 

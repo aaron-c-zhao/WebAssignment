@@ -122,6 +122,7 @@ function setUp(){
     var socket =new WebSocket("ws://localhost:3000");
     var sb = new StatusBar();
     var gs = new GameState(sb, socket);
+    var finalState = false;
 
     socket.onmessage = function(event){
         let inComMes = JSON.parse(event.data);
@@ -187,10 +188,12 @@ function setUp(){
         }
         
         else if(inComMes.type == "WON"){
+            finalState = true;
             $("[id="+inComMes.grid+"]:eq(1)").css("background-color","red");
             sb.setStatus(Status["gameWon"]);
         }
         else if (inComMes.type == "LOSE"){
+            finalState = true;
             sb.setStatus(Status["gameLost"]);
         }
         
@@ -207,7 +210,14 @@ function setUp(){
     }
 
     //TODO: socket.onclose
-    
+    socket.onclose = function(){
+        if(!finalState){
+            sb.setStatus(Status["aborted"]);
+        }
+    };
+
+    socket.onerror = function(){  
+    };
 
 };
 $(document).ready(setUp);

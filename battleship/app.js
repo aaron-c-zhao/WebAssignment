@@ -120,7 +120,46 @@ wss.on("connection", function connection(ws){
   })
 
   //TODO: player.on(close, function(){})
+  player.on("close", function (code) {
+        
+    /*
+     * code 1001 means almost always closing initiated by the client;
+     */
+    console.log(player.id + " disconnected ...");
 
+    if (code == "1001") {
+        /*
+        * if possible, abort the game; if not, the game is already completed
+        */
+        let gameObj = gameStarted[player.id];
+
+        if (gameObj.isValidTransition(gameObj.gameState, "ABORTED")) {
+            gameObj.setStatus("ABORTED"); 
+            gameStatus.gamesAborted++;
+
+            /*
+             * determine whose connection remains open;
+             * close it
+             */
+            try {
+                gameObj.playerA.close();
+                gameObj.playerA = null;
+            }
+            catch(e){
+                console.log("Player A closing: "+ e);
+            }
+
+            try {
+                gameObj.playerB.close(); 
+                gameObj.playerB = null;
+            }
+            catch(e){
+                console.log("Player B closing: " + e);
+            }                
+        }
+        
+    }
+});
 
 
 })
